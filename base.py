@@ -1,18 +1,20 @@
+import ru_local
+
 def wait(lir):
     from random import randint
-    # Функция, которая определяет время ожидания в зависимости от литров на заправку
+    
     if lir % 10 != 0:
         lir += 10 - lir % 10
-    k = int(lir / 10)  # время ожидания
+    k = int(lir / 10)  
     if k > 1:
         k += randint(-1, 1)
     else:
         k = 1
-    return k  # время заправки
+    return k  
 
 
 def sost(azs, d):
-    avt = 'Автомат №%i максимальная очередь: %i Марки бензина: %s ->%s'
+    avt = ru_local.ONE
     z = '*'
     r = []
     for i, k in enumerate(azs):
@@ -49,12 +51,12 @@ def main():
 
             text2 = f2.readlines()
 
-            m1 = 'В  %s  новый клиент:  %s %s %i %i встал в очередь к автомату №%i'
-            m2 = 'В  %s  клиент  %s %s %i %i  заправил свой автомобиль и покинул АЗС.'
-            m3 = 'В  %s  новый клиент:  %s %s %i %i не смог заправить автомобиль и покинул АЗС.'
+            m1 = ru_local.NEWCL
+            m2 = ru_local.BAK
+            m3 = ru_local.GOODBY
             sob = []
             azs = []
-            dt = {'АИ-92':0, 'АИ-95':0, 'АИ-80':0, 'АИ-98':0}
+            dt = {ru_local.ONEBZ: 0, ru_local.TWOBZ: 0, ru_local.THREEBZ: 0, ru_local.FOREBZ: 0}
             for i in d:
                 azs.append(list())
             for j in text2:
@@ -63,14 +65,14 @@ def main():
                 hour = int(hs[0])
                 min_ = int(hs[1])
                 time = j[0]
-                litr = int(j[1])  # необходимые литры для заправки
-                k = wait(int(litr))  # время заправки
+                litr = int(j[1])  
+                k = wait(int(litr))  
                 type_ = j[2]
 
                 found = False
-                c = [time, litr, k, type_, hour, min_]  # состояние прибывшей машины
+                c = [time, litr, k, type_, hour, min_]  
 
-                ct = hour * 60 + min_  # текущее время
+                ct = hour * 60 + min_  
                 for i, o in enumerate(azs):
                     no = []
                     last_h = 0
@@ -108,17 +110,17 @@ def main():
                         sob.append([m3 % (time, time, type_, litr, k), sost(azs, d)])
                         car_lost += 1
     print_(sob)
-    print('Всего за сутки было продано: ', 'АИ-92:', dt['АИ-92'], 'литров;', 'АИ-95:', dt['АИ-95'], 'литров;',
-          'АИ-80:', dt['АИ-80'], 'литров;', 'АИ-98: ', dt['АИ-98'], 'литров.')
+    print(ru_local.TODAYBY, ru_local.ONEBZ, dt['АИ-92'], ru_local.LITR, ru_local.TWOBZ, dt['АИ-95'], ru_local.LIT,
+          ru_local.THREEBZ, dt['АИ-80'], ru_local.LIT, ru_local.FOREBZ, dt['АИ-98'], ru_local.LIT)
 
-    money = {'АИ-92': 41, 'АИ-95': 43.9, 'АИ-80': 34, 'АИ-98': 48.1}
+    money = {ru_local.ONEBZ: 41, ru_local.TWOBZ: 43.9, ru_local.THREEBZ: 34, ru_local.FOREBZ: 48.1}
     first_m = dt['АИ-92'] * money['АИ-92']
     second_m = dt['АИ-95'] * money['АИ-95']
     third_m = dt['АИ-80'] * money['АИ-80']
     thourth_m = dt['АИ-98'] * money['АИ-98']
 
     total_money = first_m + second_m + third_m + thourth_m
-    print('Общая выручка за день: ', total_money, 'рублей.')
-    print('Всего не смогли заправиться', car_lost, 'машин.')
+    print(ru_local.CASH, total_money, ru_local.MONEY)
+    print(ru_local.NOMONEY, car_lost, ru_local.CAR)
 
 main()
