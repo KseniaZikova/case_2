@@ -1,5 +1,6 @@
 import ru_local
 
+
 def wait(lir):
     from random import randint
     
